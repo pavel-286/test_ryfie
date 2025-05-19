@@ -1,14 +1,23 @@
-from PyQt5 import *
-from PyQt5.QWidgets import QApplication, QLabel, QPushButton, QVBoxLayout
+from PyQt5.QtCore import Qt, QTimer, QTime, QLocale
+from PyQt5.QtGui import QDoubleValidator, QIntValidator, QFont
+from PyQt5.QtWidgets import (
+        QApplication, QWidget, 
+        QHBoxLayout, QVBoxLayout, QGridLayout, 
+        QGroupBox, QRadioButton,
+        QPushButton, QLabel, QListWidget, QLineEdit)
 
 import instr
+
+import sys
 
 class Window(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setGeometry(instr.win_x, instr.win_y, instr.win_width, instr.win_height)
-        self.setTitle('Тест Руфье')
+        self.resize(instr.win_width, instr.win_height)
+        self.move(instr.win_x, instr.win_y)
+
+        self.setWindowTitle('Тест Руфье')
 
         self.vline = QVBoxLayout()
         self.btn = QPushButton()
@@ -19,9 +28,9 @@ class Window(QWidget):
         self.text2 = QLabel()
         self.text2.setText(instr.txt_instruction)
 
-        self.vline.addWidget(self.text1, alignment = Qt.Alignleft)
-        self.vline.addWidget(self.text2, alignment = Qt.Alignleft)
-        self.vline.addWidget(self.btn, alignment = Qt.Aligncenter)
+        self.vline.addWidget(self.text1, alignment = Qt.AlignLeft)
+        self.vline.addWidget(self.text2, alignment = Qt.AlignLeft)
+        self.vline.addWidget(self.btn, alignment = Qt.AlignCenter)
         
         self.setLayout(self.vline)
 
@@ -30,7 +39,7 @@ class Window(QWidget):
     def button_click(self):
         pass
 
-app = QApplication()
+app = QApplication(sys.argv)
 win = Window()
 
-app.exec_()
+sys.exit(app.exec_())
