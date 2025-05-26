@@ -1,0 +1,72 @@
+from PyQt5.QtCore import Qt  # Импортируем класс Qt для использования различных констант, например, для выравнивания.
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout  # Импортируем необходимые виджеты из библиотеки PyQt5.
+
+class FirstWindow(QWidget):  # Определяем класс первого окна, который наследует QWidget.
+    def __init__(self):  # Определяем метод инициализации (ошибка, нужно __init__).
+        super().__init__()  # Вызываем инициализатор родительского класса.
+        self.setWindowTitle('Тест Руфье')  # Устанавливаем заголовок окна.
+        self.setGeometry(100, 100, 400, 300)  # Устанавливаем размеры и положение окна.
+
+        self.text1 = QLabel('Первый текст')  # Создаем текстовую метку с текстом.
+        self.button = QPushButton('Перейти на второе окно')  # Создаем кнопку для перехода на второе окно.
+
+        font = self.text1.font()  # Получаем текущий шрифт метки.
+        font.setPointSize(12)  # Устанавливаем размер шрифта в 12 пунктов.
+        self.text1.setFont(font)  # Применяем новый шрифт к метке.
+
+        layout = QVBoxLayout()  # Создаем вертикальный компоновщик.
+        layout.addWidget(self.text1, alignment=Qt.AlignCenter)  # Добавляем метку в компоновщик с выравниванием по центру.
+        layout.addWidget(self.button, alignment=Qt.AlignCenter)  # Добавляем кнопку в компоновщик с выравниванием по центру.
+        self.setLayout(layout)  # Устанавливаем компоновщик для текущего окна.
+
+        self.button.clicked.connect(self.go_to_second_window)  # Подключаем сигнал нажатия кнопки к методу перехода на второе окно.
+
+        self.second_window = SecondWindow()  # Создаем экземпляр второго окна.
+
+    def go_to_second_window(self):  # Метод для перехода на второе окно.
+        self.second_window.show()  # Показываем второе окно.
+        self.close()  # Закрываем текущее (первое) окно.
+
+class SecondWindow(QWidget):  # Определяем класс второго окна.
+    def __init__(self):  # Определяем метод инициализации (ошибка, нужно __init__).
+        super().__init__()  # Вызываем инициализатор родительского класса.
+        self.setWindowTitle('Второе окно')  # Устанавливаем заголовок окна.
+        self.setGeometry(100, 100, 400, 300)  # Устанавливаем размеры и положение окна.
+
+        self.label = QLabel('Это второе окно')  # Создаем метку с текстом для второго окна.
+        self.button_to_third = QPushButton('Перейти на третье окно')  # Кнопка для перехода на третье окно.
+        self.button_to_first = QPushButton('Вернуться на первое окно')  # Кнопка для возврата на первое окно.
+
+        layout = QVBoxLayout()  # Создаем вертикальный компоновщик.
+        layout.addWidget(self.label, alignment=Qt.AlignCenter)  # Добавляем метку в компоновщик с выравниванием по центру.
+        layout.addWidget(self.button_to_first, alignment=Qt.AlignCenter)  # Добавляем кнопку для возврата на первое окно.
+        layout.addWidget(self.button_to_third, alignment=Qt.AlignCenter)  # Добавляем кнопку для перехода на третье окно.
+        self.setLayout(layout)  # Устанавливаем компоновщик для второго окна.
+
+        self.button_to_first.clicked.connect(self.go_to_first_window)  # Подключаем кнопку возврата к соответствующему методу.
+        self.button_to_third.clicked.connect(self.open_third_window)  # Подключаем кнопку перехода к третьему окну.
+
+    def go_to_first_window(self):  # Метод для возврата на первое окно.
+        self.close()  # Закрываем текущее (второе) окно.
+    
+    def open_third_window(self):  # Метод для открытия третьего окна.
+        self.third_window = ThirdWindow()  # Создаем экземпляр третьего окна.
+        self.third_window.show()  # Показываем третье окно.
+
+class ThirdWindow(QWidget):  # Определяем класс третьего окна.
+    def __init__(self):  # Определяем метод инициализации (ошибка, нужно __init__).
+        super().__init__()  # Вызываем инициализатор родительского класса.
+        self.setWindowTitle('Третье окно')  # Устанавливаем заголовок окна.
+        self.setGeometry(100, 100, 400, 300)  # Устанавливаем размеры и положение окна. 
+        self.label = QLabel('Это третье окно')  # Создаем метку с текстом для третьего окна.
+        layout = QVBoxLayout()  # Создаем вертикальный компоновщик.
+        layout.addWidget(self.label, alignment=Qt.AlignCenter)  # Добавляем метку в компоновщик с выравниванием по центру.
+        self.setLayout(layout)  # Устанавливаем компоновщик для третьего окна.
+
+app = QApplication([])  # Создаем экземпляр приложения.
+
+first_window = FirstWindow()  # Создаем экземпляр первого окна.
+first_window.show()  # Показываем первое окно.
+
+app.exec_()  # Запускаем главный цикл приложения.
+
